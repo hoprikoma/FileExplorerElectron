@@ -8,6 +8,7 @@ body {
 body {
   background-color: white;
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 
 textarea {
@@ -44,13 +45,31 @@ textarea {
   background-color: #ccc;
   cursor: default;
   width: 100%;
+  order: 1;
 }
 
 /* Static part */
+.myPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .title {
   font-size: 28px;
   margin: 0;
   margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.title i{
+  margin-right: 10px;
+}
+
+.folder {
+  font-size: 30px;
 }
 
 .toolbar {
@@ -60,28 +79,78 @@ textarea {
 
 .searchBar {
   display: flex;
+  align-items: center;
 }
 
 .backButton {
   padding: 0 5px;
 }
 
+.homeButton {
+  padding: 0 5px;
+}
+
+.homeButton > i{
+  margin-top: 5px;
+}
+
 .searchButton {
   margin: 0 5px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* Result part */
 .fileList {
-  padding: 10px;
+  padding: 0 10px;
+  height: inherit;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.fileItem > span {
+  margin-right: 10px;
+  width: 20px;
+}
+
+.fileItem > span > i{
+  margin: auto;
+}
+
+#folderList {
+  overflow-y: scroll;
+  height: calc(100% - 20px);
+  padding: 10px 0;
+  flex: 1;
 }
 
 #folderList a {
-  display: block;
   padding: 2px 0;
   transition: 0.1s;
   cursor: pointer;
+  width: 100%;
 }
 
 #folderList a:hover {
   background-color: rgba(126, 147, 200, 0.5);
+}
+
+
+/* Actions */
+.actions {
+  padding: 0 20px;
+}
+
+.actions-ctn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
 }

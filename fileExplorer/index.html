@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
-    <meta http-equiv="X-Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/cssGg.css">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <div class="toolbar">
-      <p class="title">My file Explorer</p>
-      
-      
-      <form action="" class="searchBar">
-        <div onclick="goBack()" class="backButton"><i class="gg-arrow-left"></i></div>
-        <textarea id="currentFolder" rows="1"></textarea>
-        <input type="button" value="go" class="searchButton"/>
-      </form>
-    </div>
 
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+  <meta http-equiv="X-Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/cssGg.css">
+  <title>Hello World!</title>
+</head>
+
+<body>
+  <div class="myPage">
+    <div class="toolbar">
+      <p class="title"> <span class="folder">📁</span> <span>The best file explorer</span> </p>
+  
+      <div class="searchBar">
+        <div onclick="goBack()" class="backButton"><i class="gg-arrow-left"></i></div>
+        <div onclick="goHome()" class="homeButton"><i class="gg-home"></i></div>
+        <textarea id="currentFolder" rows="1"></textarea>
+        <div onclick="searchBar()"><span class="searchButton">GO</span></div>
+      </div>
+    </div>
+  
     <div class="fileList">
       <div id="folderList"></div>
+      <div class="actions">
+        <p>Actions panel</p>
+        <div class="actions-ctn">
+          <div id="rename">
+            <p>Rename</p>
+            <i class="gg-pen"></i>
+          </div>
+          <div id="cut">
+            <p>Cut</p>
+          </div>
+          <div id="copy">
+            <p>Copy</p>
+          </div>
+          <div id="past">
+            <p>Past</p>
+          </div>
+          <div id="delete">
+            <p>Delete</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./rendererExplorer.js"></script>
+  <!-- You can also require other files to run in this process -->
+  <script src="./rendererExplorer.js"></script>
+</body>
 
-  </body>
 </html>
