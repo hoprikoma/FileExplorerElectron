@@ -1,0 +1,12 @@
+#folderList a {
+    display: block;
+    margin: 2px 0;
+}
+
+#currentFolder {
+    margin-bottom: 10px;
+}
+
+body {
+    background-color: white;
+}
