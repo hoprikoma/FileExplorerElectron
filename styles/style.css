@@ -11,11 +11,6 @@ body {
   overflow: hidden;
 }
 
-textarea {
-  resize: none;
-  width: 100%;
-}
-
 /* TABS */
 .etabs-tabs {
   display: flex;
@@ -49,6 +44,7 @@ textarea {
 }
 
 /* Static part */
+
 .myPage {
   display: flex;
   flex-direction: column;
@@ -80,6 +76,10 @@ textarea {
 .searchBar {
   display: flex;
   align-items: center;
+}
+
+#currentFolder {
+  width: 100%;
 }
 
 .backButton {
@@ -150,7 +150,79 @@ textarea {
 .actions-ctn {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+}
+
+.actions-ctn > div {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  justify-content: space-between;
+}
+
+.actions-ctn > div:hover {
+  background-color: rgba(126, 147, 200, 0.5);
+}
+
+.actions .gg-push-right {
+  left: -4px;
+}
+
+.actions #rename {
+  display: none;
+}
+
+/* RENAME ACTION */
+.verifBox {
+  display: none;
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  background: #6B8790;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+#renameBox > input {
+  margin-left: 10px;
+}
+
+.verifActions {
+  background: white;
+  padding: 2px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 767.98px) { 
+
+  /* ACTIONS */
+  .actions > p {
+    display: none;
+  }
+
+  .actions-ctn {
+    flex-direction: row;
+  }
+  
+  .actions-ctn > div {
+    justify-content: center;
+  }
+
+  .actions-ctn > div i {
+    display: none;
+  }
+
+
+  /* FILE LIST */
+  .fileList {
+    flex-direction: column-reverse;
+  }
+
+  #folderList {
+    padding: 0;
+    padding-bottom: 80px;
+  }
+  
 }

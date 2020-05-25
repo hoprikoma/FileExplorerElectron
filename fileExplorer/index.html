@@ -19,9 +19,18 @@
       <div class="searchBar">
         <div onclick="goBack()" class="backButton"><i class="gg-arrow-left"></i></div>
         <div onclick="goHome()" class="homeButton"><i class="gg-home"></i></div>
-        <textarea id="currentFolder" rows="1"></textarea>
+        <input id="currentFolder" rows="1"/>
         <div onclick="searchBar()"><span class="searchButton">GO</span></div>
       </div>
+    </div>
+
+    <div class="verifBox" id="renameBox">
+      <input type="text" placeholder="New name.." id="renameValue">
+      <span class="verifActions" onclick="validateRename()">Rename ✅ ?</span>
+    </div>
+
+    <div class="verifBox" id="deleteBox">
+      <span class="verifActions" onclick="deleteBox()">Delete 🗑 ?</span>
     </div>
   
     <div class="fileList">
@@ -29,21 +38,25 @@
       <div class="actions">
         <p>Actions panel</p>
         <div class="actions-ctn">
-          <div id="rename">
+          <div id="rename" onclick="renameFile()">
             <p>Rename</p>
-            <i class="gg-pen"></i>
+            <i class="gg-rename"></i>
           </div>
           <div id="cut">
             <p>Cut</p>
+            <i class="gg-arrow-right"></i>
           </div>
           <div id="copy">
             <p>Copy</p>
+            <i class="gg-push-right"></i>
           </div>
           <div id="past">
             <p>Past</p>
+            <i class="gg-import"></i>
           </div>
-          <div id="delete">
+          <div id="delete" onclick="deleteFiles()">
             <p>Delete</p>
+            <i class="gg-erase"></i>
           </div>
         </div>
       </div>
