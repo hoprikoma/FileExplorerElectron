@@ -19,20 +19,38 @@ textarea {
 .title {
   font-size: 28px;
   margin: 0;
+  margin-bottom: 5px;
 }
 
 .toolbar {
   background-color: #7E93C8;
-  padding: 10px 0;
+  padding: 10px;
 }
 
 .searchBar {
   display: flex;
 }
 
+.backButton {
+  padding: 0 5px;
+}
+
+.searchButton {
+  margin: 0 5px;
+}
 
 /* Result part */
+.fileList {
+  padding: 10px;
+}
+
 #folderList a {
   display: block;
-  margin: 2px 0;
+  padding: 2px 0;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+#folderList a:hover {
+  background-color: rgba(126, 147, 200, 0.5);
 }
