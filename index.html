@@ -9,15 +9,20 @@
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>My file Explorer</h1>
-    
-    <div onclick="goBack()">GO BACK</div>
-
-    <div id="currentFolder">
+    <div class="toolbar">
+      <p class="title">My file Explorer</p>
+      <div onclick="goBack()">GO BACK</div>
+      
+      <form action="" class="searchBar">
+        <textarea id="currentFolder" rows="1"></textarea>
+        <input type="button" value="->">
+      </form>
     </div>
 
+    
+
     <div>
-      <label>Folders: </label>
+      <label>File list: </label>
       <div id="folderList"></div>
     </div>
 

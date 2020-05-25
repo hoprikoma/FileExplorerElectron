@@ -11,9 +11,6 @@ let actualFolder = os.homedir();
 let movingDir = "";
 let myPath = String(os.homedir()).split("\\");
 
-console.log(myPath);
-
-
 document.getElementById('currentFolder').innerHTML += "Current folder : " + thePath(myPath)
 
 fs.readdir(actualFolder, (err, files) => {
@@ -25,42 +22,26 @@ fs.readdir(actualFolder, (err, files) => {
 
 function goToFolder(file) {
   console.log("GO TO FOLDER");
-
-
-  if (checkIfDir(file) != true) {
-    console.log("It's not a directory")
-    return false
-  }
-
-  console.log(myPath);
   
+  path = pathToString(myPath, file)
+  
+  displayReset(path);
 
-  pathToString(file)
-  displayReset();
 
-
-  fs.readdir(myPath, (err, files) => {
+  fs.readdir(path, (err, files) => {
     files.forEach(file => {
       console.log();
       document.getElementById('folderList').innerHTML += '<a onclick="goToFolder(\'' + file + '\')">' + file + '</a>'
     });
   });
+
+  myPath = path
 }
 
-function thePath(myPath) {
-  console.log('THE PATH');
 
-  if (typeof myPath != "string") {
-    myPath = myPath.join('\\')
-  }
-
-  return myPath
-}
 
 function goBack() {
   console.log("GO BACK");
-  console.log(myPath);
-
 
   if (typeof myPath == "string") {
     myPath = myPath.split("\\");
@@ -70,8 +51,10 @@ function goBack() {
     myPath.pop()
     myPath = myPath.join('\\')
   }
+  
+  console.log(myPath);
 
-  displayReset();
+  displayReset(myPath);
 
   fs.readdir(myPath, (err, files) => {
     files.forEach(file => {
@@ -81,42 +64,51 @@ function goBack() {
   });
 }
 
-function checkIfDir(file) {
-  console.log('CHECK IF DIR');
+function pathToString(path, file) {
 
-  var path = myPath
+  if (typeof path != "string") {
+    path = path.join('\\')
+  }
 
-  pathToString(file)
-  
+  let nextDir = path+'\\'+file
 
-  statsObj = fs.statSync(path); 
+  statsObj = fs.statSync(nextDir); 
   
   // console.log(statsObj);  
-  console.log("Path is file:", statsObj.isFile()); 
-  console.log("Path is directory:", statsObj.isDirectory()); 
+  // console.log("Path is file:", statsObj.isFile()); 
+  // console.log("Path is directory:", statsObj.isDirectory());
 
+  if (statsObj.isDirectory() != true) {
+    console.log('is not directory !');
+    return false
+  }  
+  
 
-  console.log(statsObj.isDirectory());
-
-  return statsObj.isDirectory()
-
-}
-
-function pathToString(file) {
   if (typeof path == "string") {
     path = path.split("\\");
-    console.log('test1');
-    
     path.push(file)
     path = path.join('\\')
   } else {
-    console.log('test2');
     path.push(file)
     path = path.join('\\')
   }
+  return path
 }
 
-function displayReset() {
+function displayReset(myPath) {
+  console.log('DISPLAY RESET');
+  
   document.getElementById('folderList').innerHTML = ""
-  document.getElementById('currentFolder').innerHTML = "Current folder : " + "<span>" + thePath(myPath) + "</span>"
+  document.getElementById('currentFolder').value = thePath(myPath)
+}
+
+function thePath(myPath) {
+  console.log('THE PATH');
+
+  if (typeof myPath != "string") {
+    myPath = myPath.join('\\')
+  }
+  
+  console.log(myPath);
+  return myPath
 }
