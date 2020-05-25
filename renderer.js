@@ -8,5 +8,19 @@ let tab = tabGroup.addTab({
   visible: true,
   webviewAttributes: {
     nodeintegration: true
-  }
+  },
+  active: true
 });
+
+
+
+function createTabs() {
+  let tab = tabGroup.addTab({
+    title: "Explorer",
+    src: "./fileExplorer/index.html",
+    visible: true,
+    webviewAttributes: {
+      nodeintegration: true
+    }
+  });
+}
