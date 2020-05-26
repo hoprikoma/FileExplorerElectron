@@ -7,10 +7,11 @@ const {
 
 // Init list of files
 let listOfFiles = []
+let clipboardFiles = []
+let copyCut
 
 // Init path
 let actualFolder = os.homedir();
-let movingDir = "";
 let myPath = String(os.homedir()).split(SEPARATOR);
 const HOMEDIR = String(os.homedir()).split(SEPARATOR);
 myPath = myPath.join(SEPARATOR)
@@ -32,6 +33,7 @@ function goToFolder(file) {
   displayList(path)
 
   myPath = path
+  listOfFiles = []
 }
 
 function goHome() {
@@ -71,6 +73,7 @@ function goBack() {
 
   displayReset(myPath);
   displayList(myPath)
+  listOfFiles = []
 }
 
 function pathToString(path, file) {
@@ -127,17 +130,19 @@ function displayList(folder) {
   console.log('DISPLAY LIST')
 
   let fileIcon = ""
+  let elementID = 0
 
   fs.readdir(folder, (err, files) => {
     files.forEach(file => {
       statsObj = fs.statSync(myPath + SEPARATOR + file);
       if (statsObj.isDirectory() === true) {
         fileIcon = '<i class="gg-folder"></i>'
-        document.getElementById('folderList').innerHTML += '<div class="fileItem">' + '<input type="checkbox" onclick="addToList(\'' + file + '\')" />' + '<span>' + fileIcon + '</span>' + '<a class="linkFile" ondblclick="goToFolder(\'' + file + '\')">' + file + '</a>' + '</div>'
+        document.getElementById('folderList').innerHTML += '<div class="fileItem">' + '<span>' + fileIcon + '</span>' + '<a class="linkFile" id='+ elementID +' onclick="addToList(\'' + file + '\', \'' + elementID + '\')" ondblclick="goToFolder(\'' + file + '\')">' + file + '</a>' + '</div>'
       } else {
         fileIcon = '<i class="gg-file-document"></i>'
-        document.getElementById('folderList').innerHTML += '<div class="fileItem">' + '<input type="checkbox" onclick="addToList(\'' + file + '\')" />' + '<span>' + fileIcon + '</span>' + '<a class="linkFile" ondblclick="openFile(\'' + file + '\')">' + file + '</a>' + '</div>'
+        document.getElementById('folderList').innerHTML += '<div class="fileItem">' + '<span>' + fileIcon + '</span>' + '<a class="linkFile" id='+ elementID +' onclick="addToList(\'' + file + '\', \'' + elementID + '\')" ondblclick="openFile(\'' + file + '\')">' + file + '</a>' + '</div>'
       }
+      elementID++
     });
   });
 }
@@ -149,19 +154,34 @@ function openFile(file) {
 function validateRename() {
   file = listOfFiles[0]
   document.getElementById("renameBox").style.display = "none";
+  
+  statsObj = fs.statSync(file);
+  if (statsObj.isDirectory() == true) {
+    let name = document.getElementById("renameValue").value
+    if (name == null || name == "") {
+      console.log("User cancelled the rename.");
+    } else {
+      console.log("User changed the rename.");
+    }
 
-  let ext = file.split('.').pop();
-  let name = document.getElementById("renameValue").value
-  if (name == null || name == "") {
-    console.log("User cancelled the rename.");
+    fs.rename(file, myPath + SEPARATOR + name, (err) => {
+      if (err) throw err;
+      console.log('Rename complete!');
+    });
   } else {
-    console.log("User changed the rename.");
-  }
+    let ext = file.split('.').pop();
+    let name = document.getElementById("renameValue").value
+    if (name == null || name == "") {
+      console.log("User cancelled the rename.");
+    } else {
+      console.log("User changed the rename.");
+    }
 
-  fs.rename(file, myPath + SEPARATOR + name + "." + ext, (err) => {
-    if (err) throw err;
-    console.log('Rename complete!');
-  });
+    fs.rename(file, myPath + SEPARATOR + name, (err) => {
+      if (err) throw err;
+      console.log('Rename complete!');
+    });
+  }
 
   document.getElementById("rename").style.display = "none";
   clearAfterActions()
@@ -171,7 +191,7 @@ function renameFile() {
   document.getElementById("renameBox").style.display = "flex";
 }
 
-function addToList(file) {
+function addToList(file, idItem) {
   console.log('ADD TO LIST')
 
   myFile = myPath + SEPARATOR + file
@@ -179,11 +199,15 @@ function addToList(file) {
 
   if (index === -1) {
     listOfFiles.push(myFile)
+    document.getElementById(idItem).style.backgroundColor = "#6B8790";
   } else {
     listOfFiles.splice(index, 1)
     document.getElementById("renameBox").style.display = "none";
+    document.getElementById(idItem).style.backgroundColor = "";
   }
   console.log(listOfFiles);
+
+  
 
   checkRename(listOfFiles)
 }
@@ -219,20 +243,53 @@ function deleteBox() {
 }
 
 function cutFiles() {
-  listOfFiles.forEach(element => {
-    console.log(myPath);
-    console.log(element);
-    
-    // fs.rename(element, myPath, (err) => {
-    //   if (err) throw err;
-    //   console.log('Move complete!');
-    // });
+  clipboardFiles = listOfFiles
+  copyCut = 'cut'
+}
 
-    // FAIRE EN SORTE D'AVOIR UNE VAR QUI CHOISI COPIER OU COLLER
-  });
+function copyFiles() {
+  clipboardFiles = listOfFiles
+  copyCut = 'copy'
+}
+
+function pasteFiles() {
+
+  let destFile
+
+  if (copyCut === 'copy') {
+    clipboardFiles.forEach(element => {
+      console.log(element);
+      destFile = element.split(SEPARATOR);
+      destFile = destFile[destFile.length - 1];
+      
+      fs.copyFile(element, myPath + SEPARATOR + destFile, callback)
+      
+      function callback(err) {
+        if (err) throw err;
+      }
+    });
+  }
+  else {
+    clipboardFiles.forEach(element => {
+      console.log(element);
+      destFile = element.split(SEPARATOR);
+      destFile = destFile[destFile.length - 1];
+
+      fs.rename(element, myPath + SEPARATOR + destFile, (err) => {
+        if (err) throw err;
+      });
+    });
+  }
+  
+  clipboardFiles = []
+  GoWhereIWant(myPath)
 }
 
 function clearAfterActions() {
   listOfFiles = []
   GoWhereIWant(myPath);
+}
+
+function refresh() {
+  clearAfterActions()
 }
