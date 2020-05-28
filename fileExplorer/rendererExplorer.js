@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra')
 const os = require('os');
 const SEPARATOR = require('path').sep
 const {
@@ -262,11 +263,11 @@ function pasteFiles() {
       destFile = element.split(SEPARATOR);
       destFile = destFile[destFile.length - 1];
       
-      fs.copyFile(element, myPath + SEPARATOR + destFile, callback)
-      
-      function callback(err) {
-        if (err) throw err;
-      }
+      fse.copy(element, myPath + SEPARATOR + destFile, err => {
+        if (err) return console.error(err)
+        console.log('success!')
+      })
+
     });
   }
   else {
